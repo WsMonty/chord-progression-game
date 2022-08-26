@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { HeadFC } from 'gatsby';
 import '../styles/main.scss';
-import Game from './components/game';
+import Game from '../components/game';
 
 const IndexPage = () => {
   return (

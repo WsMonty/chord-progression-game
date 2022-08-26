@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { entryHandler } from './game_components/entryHandler';
+import { entryHandler } from '../game_components/entryHandler';
 
 const Game = () => {
   const [currentField, setCurrentField] = useState(1);
@@ -27,9 +27,11 @@ const Game = () => {
     createField(5, 8);
   }, []);
 
-  const allBars: NodeListOf<HTMLElement> =
-    document.querySelectorAll('.field_bar');
+  let allBars: NodeListOf<HTMLElement>;
+
   useEffect(() => {
+    allBars = document.querySelectorAll('.field_bar');
+
     allBars.forEach((bar) => {
       if (
         bar.dataset.row === currentRow + '' &&

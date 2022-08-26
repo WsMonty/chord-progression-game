@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { entryHandler } from '../game_components/entryHandler';
+import Field from '../game_components/field';
 
 const Game = () => {
   const [currentField, setCurrentField] = useState(1);
@@ -22,10 +23,6 @@ const Game = () => {
       field.appendChild(row);
     }
   };
-
-  useEffect(() => {
-    createField(5, 8);
-  }, []);
 
   let allBars: NodeListOf<HTMLElement>;
 
@@ -161,7 +158,7 @@ const Game = () => {
 
   return (
     <div className="game">
-      <div className="field"></div>
+      <Field />
       <div className="win hidden">
         <div className="win_overlay"></div>
         <div className="win_container">

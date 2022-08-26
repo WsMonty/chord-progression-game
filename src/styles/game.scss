@@ -1,0 +1,144 @@
+.game {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+
+  &_entryList {
+    list-style: none;
+    width: 100%;
+    display: grid;
+    gap: 0.5em;
+    margin-bottom: 1em;
+  }
+
+  &_degreeEntriesList {
+    grid-template-columns: repeat(7, 5em);
+  }
+
+  &_chordEntriesList {
+    grid-template-columns: repeat(5, 5em);
+    justify-content: center;
+  }
+
+  &_entry {
+    width: 5em;
+    height: 5em;
+    background-color: $clr-dark;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &_btn {
+      height: 100%;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: $clr-text;
+    }
+
+    &_submitbtn {
+      border: 1px solid $clr-text;
+      border-radius: 20px;
+      padding: 1em;
+      width: 33%;
+      align-self: center;
+
+      transition: 200ms ease-in-out;
+
+      &:hover {
+        background-color: $clr-text;
+        color: $clr-main;
+      }
+    }
+  }
+}
+
+.entries {
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+}
+
+.selected {
+  background-color: $clr-text;
+  color: $clr-dark;
+}
+
+.field {
+  &_list {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(8, 4em);
+    gap: 0.2em;
+    margin-bottom: 0.5em;
+  }
+
+  &_bar {
+    width: 4em;
+    height: 4em;
+    background-color: $clr-text;
+    color: $clr-dark;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.active {
+  border: 1px solid $clr-accent;
+}
+
+.isCorrect {
+  background-color: green;
+}
+
+.notRightPlace {
+  background-color: yellow;
+}
+
+.isFalse {
+  background-color: rgb(110, 68, 68);
+}
+
+.win {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  &_overlay {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  &_container {
+    width: 50%;
+    height: 50%;
+    z-index: 2;
+    background-color: $clr-main;
+
+    position: absolute;
+    top: 10%;
+    left: 25%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+  }
+
+  &_message {
+    margin-top: 4em;
+  }
+}

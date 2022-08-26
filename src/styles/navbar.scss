@@ -1,0 +1,20 @@
+.navbar {
+  height: 15vh;
+  width: 100%;
+  background-color: $clr-dark;
+
+  &_list {
+    height: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5em;
+  }
+
+  &_link {
+    color: $clr-text;
+    text-decoration: none;
+    font-size: 1.75em;
+  }
+}

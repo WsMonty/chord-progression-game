@@ -1,0 +1,20 @@
+$clr-main: rgb(38, 38, 38);
+$clr-dark: rgb(25, 25, 25);
+$clr-text: rgb(212, 212, 212);
+$clr-accent: rgb(255, 212, 39);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: $clr-main;
+  color: $clr-text;
+  font-family: Helvetica, sans-serif;
+  font-weight: 100;
+  overflow-x: hidden;
+}

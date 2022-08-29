@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react';
+import { setField } from '../reducers/counter';
+import { store } from '../store';
 
 const Field = () => {
   const createField = (rows: number, columns: number) => {
     const field = document.querySelector('.field');
     for (let r = 1; r <= rows; r++) {
-      const row = document.createElement('ul');
+      const row = document.createElement('DIV');
       row.className = 'field_list';
 
       for (let c = 1; c <= columns; c++) {
-        const column = document.createElement('li');
+        const column = document.createElement('button');
         column.className = 'field_bar';
         column.dataset.bar = c + '';
         column.dataset.row = r + '';
+        column.addEventListener('click', () => {
+          store.dispatch(setField(+column.dataset.bar));
+        });
         row.appendChild(column);
       }
       field.appendChild(row);

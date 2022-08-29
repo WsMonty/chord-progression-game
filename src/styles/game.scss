@@ -9,6 +9,8 @@
 
   position: relative;
 
+  padding: 2em;
+
   &_entryList {
     list-style: none;
     width: 100%;
@@ -83,16 +85,19 @@
   &_bar {
     width: 4em;
     height: 4em;
-    background-color: $clr-text;
-    color: $clr-dark;
+    background-color: $clr-dark;
+    color: $clr-text;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    border: none;
   }
 }
 
 .active {
-  border: 1px solid $clr-accent;
+  background-color: $clr-text;
+  color: $clr-dark;
 }
 
 .isCorrect {

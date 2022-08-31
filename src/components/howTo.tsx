@@ -6,7 +6,15 @@ const HowTo = () => {
       <h1 className="howTo_title">How to play the Chord Progression Game</h1>
       <p className="howTo_answer">
         Each square represents one bar of a well know Jazz Standard. Your goal
-        is to find out the first 8 bars of that random Jazz Standard.
+        is to find out the first 8 bars of that random Jazz Standard. I tried to
+        take the most common one and most logical harmonic analysis. You might
+        know a song differently, but you can still come to the solution!
+        <br />
+        <br />
+        Important note: if the chord goes on for 2 bars you'll need to enter it
+        twice. If there is a II-V for example in one bar, you'll only need to
+        enter the V! So everytime there is 2 changes per bar, you'll only enter
+        one of them.
       </p>
       <p className="howTo_answer">
         If you guess a correct chord and it is in the right bar, that field will

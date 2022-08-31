@@ -1,9 +1,10 @@
 import React from 'react';
+import HowTo from '../components/howTo';
 
 const About = () => {
   return (
     <div>
-      <h1>About</h1>
+      <HowTo />
     </div>
   );
 };

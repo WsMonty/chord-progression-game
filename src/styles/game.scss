@@ -78,6 +78,28 @@
       }
     }
   }
+
+  &_howTo {
+    position: absolute;
+    width: 50%;
+    height: 80%;
+    right: 5%;
+    top: 0;
+    background-color: $clr-dark;
+  }
+
+  &_howToBtn {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    color: $clr-text;
+    font-size: 2em;
+    cursor: pointer;
+
+    position: absolute;
+    top: -9vh;
+    right: 5%;
+  }
 }
 
 .entries {
@@ -179,5 +201,11 @@
       background: none;
       border: 1px solid $clr-text;
     }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .game {
+    display: none;
   }
 }

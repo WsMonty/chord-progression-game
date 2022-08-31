@@ -24,6 +24,8 @@ import { gameWon, gameLost } from '../reducers/win';
 import { useSelector } from 'react-redux';
 import { solutionObj } from '../game_components/solutions';
 import { getNewSolution } from '../reducers/solutionChooser';
+import { BsQuestionCircle } from 'react-icons/bs';
+import HowTo from './howTo';
 
 const Game = () => {
   const currentField = useSelector(selectCurrentField);
@@ -262,8 +264,20 @@ const Game = () => {
     bar.textContent = '';
   };
 
+  const howToPlayBtnHandler = () => {
+    const howTo = document.querySelector('.game_howTo');
+    howTo.classList.toggle('hidden');
+    howTo.classList.toggle('howTo_animation');
+  };
+
   return (
     <div className="game">
+      <button onClick={howToPlayBtnHandler} className="game_howToBtn">
+        <BsQuestionCircle />
+      </button>
+      <div className="game_howTo hidden">
+        <HowTo />
+      </div>
       <Field />
       {win ? (
         <div className="win">

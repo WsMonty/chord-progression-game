@@ -1,0 +1,17 @@
+.contact {
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+
+  &_title {
+    display: flex;
+    align-items: center;
+
+    &_link {
+      margin: 0 0 2em 2em;
+    }
+  }
+}

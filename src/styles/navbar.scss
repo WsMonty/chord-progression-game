@@ -18,3 +18,9 @@
     font-size: 1.75em;
   }
 }
+
+@media only screen and (max-width: 600px) {
+  .navbar {
+    display: none;
+  }
+}

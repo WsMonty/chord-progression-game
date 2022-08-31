@@ -28,6 +28,18 @@
     justify-content: center;
   }
 
+  &_symbolEntriesList {
+    grid-template-columns: repeat(3, 5em);
+    justify-content: center;
+  }
+
+  &_degreeBaseEntriesList {
+    background-color: $clr-text;
+    color: $clr-dark;
+    border: none;
+    text-align: center;
+  }
+
   &_entry {
     width: 5em;
     height: 5em;
@@ -35,6 +47,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &_buttons {
+      display: flex;
+      justify-content: center;
+      gap: 2em;
+    }
 
     &_btn {
       height: 100%;
@@ -145,5 +163,21 @@
 
   &_message {
     margin-top: 4em;
+  }
+
+  &_btn {
+    padding: 1em 2em;
+    background-color: $clr-text;
+    border: 1px solid transparent;
+    border-radius: 2em;
+    cursor: pointer;
+
+    transition: 200ms ease-in-out;
+
+    &:hover {
+      color: $clr-text;
+      background: none;
+      border: 1px solid $clr-text;
+    }
   }
 }

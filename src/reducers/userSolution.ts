@@ -18,9 +18,13 @@ export const userSolutionReducer = createSlice({
     wipeSolution: (state) => {
       state.solution = [];
     },
+    deleteLastEntry: (state) => {
+      state.solution.splice(-1, 1);
+    },
   },
 });
 
-export const { addToSolution, wipeSolution } = userSolutionReducer.actions;
+export const { addToSolution, wipeSolution, deleteLastEntry } =
+  userSolutionReducer.actions;
 
 export default userSolutionReducer.reducer;

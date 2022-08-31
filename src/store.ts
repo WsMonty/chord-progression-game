@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import storage from 'redux-persist/es/storage';
+import storage from './storage';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 import rootReducer from './reducers/rootReducer';
@@ -25,5 +25,6 @@ export type AppDispatch = typeof store.dispatch;
 export const selectCurrentField = (state: RootState) => state.currentField;
 export const selectUserSolution = (state: RootState) => state.userSolution;
 export const selectWin = (state: RootState) => state.win;
+export const selectSolutionNumber = (state: RootState) => state.solutionNumber;
 
 export const persistor = persistStore(store);

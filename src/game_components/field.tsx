@@ -10,13 +10,11 @@ const Field = () => {
       row.className = 'field_list';
 
       for (let c = 1; c <= columns; c++) {
-        const column = document.createElement('button');
+        const column = document.createElement('DIV');
         column.className = 'field_bar';
         column.dataset.bar = c + '';
         column.dataset.row = r + '';
-        column.addEventListener('click', () => {
-          store.dispatch(setField(+column.dataset.bar));
-        });
+
         row.appendChild(column);
       }
       field.appendChild(row);

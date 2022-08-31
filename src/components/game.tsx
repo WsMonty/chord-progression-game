@@ -6,16 +6,34 @@ import {
   selectCurrentField,
   selectUserSolution,
   selectWin,
+  selectSolutionNumber,
 } from '../store';
-import { nextField, nextRow } from '../reducers/counter';
-import { addToSolution, wipeSolution } from '../reducers/userSolution';
-import { gameWon } from '../reducers/win';
+import {
+  nextField,
+  nextRow,
+  newTry,
+  resetField,
+  setField,
+} from '../reducers/counter';
+import {
+  addToSolution,
+  wipeSolution,
+  deleteLastEntry,
+} from '../reducers/userSolution';
+import { gameWon, gameLost } from '../reducers/win';
 import { useSelector } from 'react-redux';
+import { solutionObj } from '../game_components/solutions';
+import { getNewSolution } from '../reducers/solutionChooser';
 
 const Game = () => {
   const currentField = useSelector(selectCurrentField);
   const userSolution = useSelector(selectUserSolution).solution;
   const win = useSelector(selectWin).win;
+  const loose = useSelector(selectWin).loose;
+  const tries = useSelector(selectCurrentField).tries;
+  const solutionNumber = useSelector(selectSolutionNumber).solutionNumber;
+
+  const solution = solutionObj[solutionNumber];
 
   const currentBar = currentField.field;
   const currentRow = currentField.row;
@@ -53,17 +71,57 @@ const Game = () => {
     element.classList.add('selected');
   };
 
+  const entrySymbolHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const element = e.currentTarget;
+    const allSymbols = document.querySelectorAll('.game_symbolEntry_btn');
+    allSymbols.forEach((el) =>
+      el !== element ? el.classList.remove('selected') : null
+    );
+    element.classList.toggle('selected');
+    if (
+      allSymbols[0].classList.contains('selected') ||
+      allSymbols[1].classList.contains('selected')
+    )
+      document
+        .querySelector('.game_degreeBaseEntriesList')
+        .classList.remove('hidden');
+    else
+      document
+        .querySelector('.game_degreeBaseEntriesList')
+        .classList.add('hidden');
+  };
+
   const getUserSelection = () => {
     const userInput = document.querySelectorAll('.selected');
+    const base =
+      (document.getElementById('degreeBase') as HTMLInputElement) || null;
 
     const selection = {
       degree: userInput[0].textContent,
-      chord: userInput[1].textContent,
+      chord: userInput[1]?.textContent,
+      symbol: userInput[2]?.textContent,
+      base: base.value,
     };
     return selection;
   };
 
+  const checkIfCorrectlySelected = () => {
+    let check1 = false;
+    let check2 = false;
+
+    document.querySelectorAll('.game_degreeEntry_btn').forEach((degree) => {
+      if (degree.classList.contains('selected')) check1 = true;
+    });
+    document.querySelectorAll('.game_chordEntry_btn').forEach((degree) => {
+      if (degree.classList.contains('selected')) check2 = true;
+    });
+
+    return check1 && check2;
+  };
+
   const submitChord = () => {
+    if (!checkIfCorrectlySelected())
+      return alert('You must select a degree and chord quality!');
     if (currentBar === 8) {
       setShowSolutionBtn(true);
     }
@@ -84,7 +142,12 @@ const Game = () => {
 
     const userSelection = getUserSelection();
 
-    const entry = entryHandler(userSelection.degree, userSelection.chord);
+    const entry = entryHandler(
+      userSelection.degree,
+      userSelection.chord,
+      userSelection.symbol,
+      userSelection.base
+    );
 
     currentBarEl.textContent = entry;
     store.dispatch(addToSolution(entry));
@@ -98,11 +161,10 @@ const Game = () => {
   };
 
   // Cloned solution array to not mutate the original one
-  const clonedSolution = testSolution.slice();
+  let clonedSolution = solution.slice();
   let correctAnswers = 0;
 
   const isCorrect = () => {
-    console.log('1st');
     userSolution.map((chord, i) => {
       const bar = findBar(currentRow, i + 1);
 
@@ -116,7 +178,6 @@ const Game = () => {
   };
 
   const isNotInRightPlace = () => {
-    console.log('2nd');
     userSolution.map((chord, i) => {
       const bar = findBar(currentRow, i + 1);
 
@@ -129,7 +190,6 @@ const Game = () => {
   };
 
   const isFalse = () => {
-    console.log('3rd');
     userSolution.map((chord, i) => {
       const bar = findBar(currentRow, i + 1);
 
@@ -144,7 +204,10 @@ const Game = () => {
   };
 
   const submitSolution = async () => {
+    clonedSolution = solution.slice();
     setShowSolutionBtn(false);
+
+    store.dispatch(newTry());
 
     isCorrect();
     isNotInRightPlace();
@@ -172,6 +235,31 @@ const Game = () => {
     store.dispatch(wipeSolution());
     store.dispatch(nextRow());
     store.dispatch(nextField());
+
+    // LOSE GAME
+    if (tries === 0) {
+      store.dispatch(gameLost(true));
+    }
+  };
+
+  const winBtnHandler = () => {
+    store.dispatch(gameWon(false));
+    store.dispatch(gameLost(false));
+    store.dispatch(resetField());
+    store.dispatch(getNewSolution());
+    allBars.forEach((bar) => {
+      bar.classList.value = 'field_bar';
+      bar.textContent = '';
+    });
+  };
+
+  const goBackHandler = () => {
+    if (currentBar === 1) return;
+    if (currentBar === 9) setShowSolutionBtn(false);
+    store.dispatch(setField(currentBar - 1));
+    store.dispatch(deleteLastEntry());
+    const bar = findBar(currentRow, currentBar - 1);
+    bar.textContent = '';
   };
 
   return (
@@ -183,12 +271,35 @@ const Game = () => {
           <div className="win_container">
             <h1 className="win_title">Congratulations, you won!</h1>
             <h3 className="win_subtitle">Solution:</h3>
-            {testSolution.map((chord, i) =>
-              i === testSolution.length - 1 ? chord : chord + ' - '
+            {solution.map((chord, i) =>
+              i === solution.length - 1 ? chord : chord + ' - '
             )}
-            <p className="win_message">
+            {/* <p className="win_message">
               Come back tomorrow for a new chord progression!
-            </p>
+            </p> */}
+            <button className="win_btn" onClick={winBtnHandler}>
+              Play again!
+            </button>
+          </div>
+        </div>
+      ) : (
+        ''
+      )}
+      {loose ? (
+        <div className="win">
+          <div className="win_overlay"></div>
+          <div className="win_container">
+            <h1 className="win_title">Sorry, you lost!</h1>
+            <h3 className="win_subtitle">The Solution is:</h3>
+            {solution.map((chord, i) =>
+              i === solution.length - 1 ? chord : chord + ' - '
+            )}
+            {/* <p className="win_message">
+              Come back tomorrow for a new chord progression!
+            </p> */}
+            <button className="win_btn" onClick={winBtnHandler}>
+              Play again!
+            </button>
           </div>
         </div>
       ) : (
@@ -210,6 +321,7 @@ const Game = () => {
             );
           })}
         </ul>
+
         <ul className="game_chordEntriesList game_entryList">
           {chords.map((chord, i) => {
             return (
@@ -225,38 +337,72 @@ const Game = () => {
             );
           })}
         </ul>
-        {showSolutionBtn ? (
+        <ul className="game_symbolEntriesList game_entryList">
+          {specialSymbols.map((symbol, i) => {
+            return (
+              <li key={`symbol_${i}`} className="game_symbolEntry game_entry">
+                <button
+                  onClick={(e) => entrySymbolHandler(e)}
+                  className="game_symbolEntry_btn game_entry_btn"
+                  data-degree={symbol}
+                >
+                  {symbol}
+                </button>
+              </li>
+            );
+          })}
+          <select
+            defaultValue={''}
+            id="degreeBase"
+            className="game_degreeBaseEntriesList hidden"
+          >
+            <option value={''} hidden>
+              ii or V
+            </option>
+            {roots.map((degree, i) => {
+              return (
+                <option
+                  value={degree}
+                  key={`degree_base_${i}`}
+                  className="game_degreeBaseEntry"
+                >
+                  {degree}
+                </option>
+              );
+            })}
+          </select>
+        </ul>
+        <div className="game_entry_buttons">
+          {showSolutionBtn ? (
+            <button
+              className="game_entry_btn game_entry_submitbtn"
+              onClick={submitSolution}
+            >
+              Submit Solution
+            </button>
+          ) : (
+            <button
+              className="game_entry_btn game_entry_submitbtn"
+              onClick={submitChord}
+            >
+              Submit Chord
+            </button>
+          )}
           <button
             className="game_entry_btn game_entry_submitbtn"
-            onClick={submitSolution}
+            onClick={goBackHandler}
           >
-            Submit Solution
+            Go Back one bar
           </button>
-        ) : (
-          <button
-            className="game_entry_btn game_entry_submitbtn"
-            onClick={submitChord}
-          >
-            Submit Chord
-          </button>
-        )}
+        </div>
       </div>
     </div>
   );
 };
 
-const testSolution = [
-  'IMaj',
-  'vimin',
-  'iimin',
-  'V7',
-  'iiimin',
-  'vimin',
-  'iimin',
-  'V7',
-];
-
 const chords = ['Major', 'Minor', 'Dominant', 'Diminished', 'Augmented'];
 const degrees = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+const specialSymbols = ['/', 'SUB'];
+const roots = ['II', 'V'];
 
 export default Game;

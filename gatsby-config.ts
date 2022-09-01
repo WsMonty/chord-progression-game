@@ -17,6 +17,7 @@ const config: GatsbyConfig = {
       options: {
         id: 'GTM-WRR6LXR',
         includeInDevelopment: false,
+        enableWebVitalsTracking: true,
       },
     },
     {

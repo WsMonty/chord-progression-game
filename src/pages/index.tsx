@@ -19,4 +19,8 @@ const IndexPage = () => {
 
 export default IndexPage;
 
-export const Head: HeadFC = () => <title>Chord Progression Game</title>;
+export const Head: HeadFC = () => (
+  <>
+    <title>Jazz Chordle</title>
+  </>
+);

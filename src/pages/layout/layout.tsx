@@ -10,7 +10,9 @@ const Layout = ({ children }: PageProps) => {
         cookieName="Google Analytics"
         buttonStyle={{ backgroundColor: '##ffd427', fontSize: '13px' }}
         style={{ background: '#191919' }}
-      />
+      >
+        This website uses cookies to improve user experience!
+      </CookieConsent>
       <Navbar />
       {children}
     </div>

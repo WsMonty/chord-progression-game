@@ -3,7 +3,9 @@ import type { GatsbyConfig } from 'gatsby';
 const config: GatsbyConfig = {
   siteMetadata: {
     title: `Jazz Chordle`,
-    siteUrl: `https://www.yourdomain.tld`,
+    siteUrl: `https://jazzchordle.gatsbyjs.io`,
+    description:
+      'A Wordle like game to guess jazz chord progressions based on well known Jazz Standards.',
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
@@ -35,6 +37,12 @@ const config: GatsbyConfig = {
           // Defaults to https://www.googletagmanager.com
           origin: 'YOUR_SELF_HOSTED_ORIGIN',
         },
+      },
+    },
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        icon: './src/images/jazzchordle.png',
       },
     },
     'gatsby-plugin-sass',

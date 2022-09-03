@@ -22,10 +22,13 @@ import {
 } from '../reducers/userSolution';
 import { gameWon, gameLost } from '../reducers/win';
 import { useSelector } from 'react-redux';
-import { solutionObj } from '../game_components/solutions';
+import { solutionObj, songs } from '../game_components/solutions';
 import { getNewSolution } from '../reducers/solutionChooser';
 import { BsQuestionCircle } from 'react-icons/bs';
+import { ImStatsBars } from 'react-icons/im';
 import HowTo from './howTo';
+import Highscore from '../game_components/highscore';
+import { updateHighscore } from '../reducers/highscoreReducer';
 
 const Game = () => {
   const currentField = useSelector(selectCurrentField);
@@ -41,6 +44,7 @@ const Game = () => {
   const currentRow = currentField.row;
 
   const [showSolutionBtn, setShowSolutionBtn] = useState(false);
+  const [overlayActive, setOverlayActive] = useState(false);
 
   let allBars: NodeListOf<HTMLElement>;
 
@@ -56,6 +60,14 @@ const Game = () => {
         bar.classList.add('active');
     });
   }, [currentField]);
+
+  useEffect(() => {
+    const overlay = document.querySelector('.overlay');
+    win || loose ? setOverlayActive(true) : setOverlayActive(false);
+    overlayActive
+      ? overlay.classList.remove('hidden')
+      : overlay.classList.add('hidden');
+  }, [overlayActive]);
 
   const entryDegreeHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     document
@@ -183,7 +195,11 @@ const Game = () => {
     userSolution.map((chord, i) => {
       const bar = findBar(currentRow, i + 1);
 
-      if (clonedSolution.indexOf(chord) > -1 && clonedSolution[i] !== chord) {
+      if (
+        clonedSolution.indexOf(chord) > -1 &&
+        clonedSolution[i] !== chord &&
+        bar.classList.value === 'field_bar'
+      ) {
         bar.classList.add('notRightPlace');
         clonedSolution.splice(clonedSolution.indexOf(chord), 1, '');
       }
@@ -218,40 +234,31 @@ const Game = () => {
     // WIN GAME
     if (correctAnswers === 8) {
       store.dispatch(gameWon(true));
-      //   const escEvent = (e: KeyboardEvent) => {
-      //   if (e.key === 'Escape') store.dispatch(gameWon(false));
-
-      //   window.removeEventListener('keydown', escEvent);
-      // };
-
-      // const clickEvent = () => {
-      //   winEl.classList.add('hidden');
-      //   overlay.removeEventListener('click', clickEvent);
-      // };
-      // window.addEventListener('keydown', escEvent);
-      // overlay.addEventListener('click', clickEvent);
-      //   // return;
-      // }
-      // }
+      setOverlayActive(true);
+      const guesses = 5 - tries;
+      store.dispatch(updateHighscore(['win', guesses]));
     }
     store.dispatch(wipeSolution());
     store.dispatch(nextRow());
     store.dispatch(nextField());
 
     // LOSE GAME
-    if (tries === 0) {
+    if (tries === 0 && !win) {
       store.dispatch(gameLost(true));
+      setOverlayActive(true);
     }
   };
 
-  const winBtnHandler = () => {
-    store.dispatch(gameWon(false));
-    store.dispatch(gameLost(false));
-    store.dispatch(resetField());
-    store.dispatch(getNewSolution());
+  const playAgainBtnHandler = () => {
+    allBars = document.querySelectorAll('.field_bar');
     allBars.forEach((bar) => {
       bar.classList.value = 'field_bar';
       bar.textContent = '';
+      store.dispatch(gameWon(false));
+      store.dispatch(gameLost(false));
+      setOverlayActive(false);
+      store.dispatch(resetField());
+      store.dispatch(getNewSolution());
     });
   };
 
@@ -265,14 +272,35 @@ const Game = () => {
   };
 
   const howToPlayBtnHandler = () => {
+    document.querySelector('.game_highscore').classList.add('hidden');
     const howTo = document.querySelector('.game_howTo');
+
     howTo.classList.toggle('hidden');
     howTo.classList.toggle('howTo_animation');
+    howTo.classList.contains('hidden')
+      ? setOverlayActive(false)
+      : setOverlayActive(true);
+  };
+
+  const highscoreBtnHandler = () => {
+    document.querySelector('.game_howTo').classList.add('hidden');
+    const highscore = document.querySelector('.game_highscore');
+
+    highscore.classList.toggle('hidden');
+    highscore.classList.contains('hidden')
+      ? setOverlayActive(false)
+      : setOverlayActive(true);
   };
 
   return (
     <div className="game">
-      <button onClick={howToPlayBtnHandler} className="game_howToBtn">
+      <button className="game_highscoreBtn" onClick={highscoreBtnHandler}>
+        <ImStatsBars />
+      </button>
+      <div className="game_highscore hidden">
+        <Highscore />
+      </div>
+      <button className="game_howToBtn" onClick={howToPlayBtnHandler}>
         <BsQuestionCircle />
       </button>
       <div className="game_howTo hidden">
@@ -281,17 +309,14 @@ const Game = () => {
       <Field />
       {win ? (
         <div className="win">
-          <div className="win_overlay"></div>
           <div className="win_container">
             <h1 className="win_title">Congratulations, you won!</h1>
             <h3 className="win_subtitle">Solution:</h3>
             {solution.map((chord, i) =>
               i === solution.length - 1 ? chord : chord + ' - '
             )}
-            {/* <p className="win_message">
-              Come back tomorrow for a new chord progression!
-            </p> */}
-            <button className="win_btn" onClick={winBtnHandler}>
+            <h4>{`Song: '${songs[solutionNumber]}'`}</h4>
+            <button className="win_btn" onClick={playAgainBtnHandler}>
               Play again!
             </button>
           </div>
@@ -300,18 +325,15 @@ const Game = () => {
         ''
       )}
       {loose ? (
-        <div className="win">
-          <div className="win_overlay"></div>
-          <div className="win_container">
-            <h1 className="win_title">Sorry, you lost!</h1>
-            <h3 className="win_subtitle">The Solution is:</h3>
+        <div className="loose">
+          <div className="loose_container">
+            <h1 className="loose_title">Sorry, you lost!</h1>
+            <h3 className="loose_subtitle">The Solution is:</h3>
             {solution.map((chord, i) =>
               i === solution.length - 1 ? chord : chord + ' - '
             )}
-            {/* <p className="win_message">
-              Come back tomorrow for a new chord progression!
-            </p> */}
-            <button className="win_btn" onClick={winBtnHandler}>
+            <h4>{`Song: '${songs[solutionNumber]}'`}</h4>
+            <button className="win_btn" onClick={playAgainBtnHandler}>
               Play again!
             </button>
           </div>
@@ -410,6 +432,7 @@ const Game = () => {
           </button>
         </div>
       </div>
+      <div className="overlay hidden"></div>
     </div>
   );
 };

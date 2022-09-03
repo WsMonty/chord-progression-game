@@ -5,11 +5,11 @@ interface solutionObjType {
 export const solutionObj: solutionObjType = {
   1: ['IMaj', 'V/II', 'iimin', 'V7', 'iiimin', 'vimin', 'iimin', 'V7'], // Have you met Miss Jones?
   2: ['IVMaj', 'IVMaj', 'ivmin', 'VII7', 'IMaj', 'IMaj', 'SUBII/II', 'SUBV/II'], // Just Friends
-  3: ['IMaj', 'IMaj', 'V/V', 'V/V', 'iimin', 'V7', 'Imaj', 'IMaj'], // Take the A Train
+  3: ['IMaj', 'IMaj', 'V/V', 'V/V', 'iimin', 'V7', 'IMaj', 'IMaj'], // Take the A Train
   4: ['II/III', 'V/III', 'IIIMaj', 'VIMaj', 'iimin', 'V7', 'imin', 'imin'], // Autumn Leaves
   5: ['IMaj', 'IMaj', 'II/VI', 'V/VI', 'vimin', 'vimin', 'II/IV', 'V/IV'], // There will never be another you
   6: ['iimin', 'V7', 'iimin', 'V7', 'IMaj', 'vimin', 'II/II', 'V/II'], // Scrapple from the apple
-  7: ['IMaj', 'V/VI', 'V/V', 'V/IV', 'SUBV/III', 'V/II', 'V/V', 'V7'], //
+  7: ['IMaj', 'vimin', 'IVMaj', 'IMaj', 'IVMaj', 'IMaj', 'II/VI', 'V/VI'], // Moon River
   8: ['II/IV', 'V/IV', 'ivmin', 'ivmin', 'iimin', 'V7', 'IMaj', 'IMaj'], // What is this thing called love
   9: ['imin', 'V7', 'imin', 'imin', 'II/VI', 'V/VI', 'VIMaj', 'VIMaj'], // You'd be so nice to come home to
   10: ['imin', 'IIMaj', 'V7', 'VIMaj', 'ivmin', 'IIMaj', 'IMaj', 'imin'], // Nardis
@@ -32,4 +32,31 @@ export const solutionObj: solutionObjType = {
   18: ['vimin', 'iimin', 'V7', 'IMaj', 'IVMaj', 'II/VI', 'V/VI', 'vimin'], // Fly me to the moon
   19: ['IMaj', 'IMaj', 'SUBII/V', 'SUBV/V', 'IMaj', 'IMaj', 'II/II', 'V/II'], // Out of nowhere
   20: ['IMaj', 'V/VI', 'iimin', 'V/II', 'iimin', 'V7', 'IMaj', 'V/VI'], // I'll be seeing you
+};
+
+interface songsObjType {
+  [index: number]: string;
+}
+
+export const songs: songsObjType = {
+  1: 'Have you met Miss Jones',
+  2: 'Just Friends',
+  3: "Take the 'A' Train",
+  4: 'Autumn Leaves',
+  5: 'There will never be another you',
+  6: 'Scrapple from the apple',
+  7: 'Moon River',
+  8: 'What is this thing called love',
+  9: "You'd be so nice to come home to",
+  10: 'Nardis',
+  11: 'If I were a bell',
+  12: 'In a mellow tone',
+  13: 'There is no greater love',
+  14: 'Alice in Wonderland',
+  15: 'Beautiful Love',
+  16: 'Days of Wine and Roses',
+  17: 'Emily',
+  18: 'Fly me to the moon',
+  19: 'Out of nowhere',
+  20: "I'll be seeing you",
 };

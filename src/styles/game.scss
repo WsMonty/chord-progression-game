@@ -86,6 +86,7 @@
     right: 5%;
     top: 0;
     background-color: $clr-dark;
+    border: 1px solid $clr-text;
   }
 
   &_howToBtn {
@@ -99,6 +100,27 @@
     position: absolute;
     top: -9vh;
     right: 5%;
+  }
+
+  &_highscore {
+    position: absolute;
+    top: 0;
+    right: 10%;
+
+    border: 1px solid $clr-text;
+  }
+
+  &_highscoreBtn {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    color: $clr-text;
+    font-size: 2em;
+    cursor: pointer;
+
+    position: absolute;
+    top: -9vh;
+    right: 10%;
   }
 }
 
@@ -159,12 +181,50 @@
   width: 100vw;
   height: 100vh;
 
-  &_overlay {
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    background-color: rgba(0, 0, 0, 0.4);
+  &_container {
+    width: 50%;
+    height: 50%;
+    z-index: 2;
+    background-color: $clr-main;
+
+    position: absolute;
+    top: 10%;
+    left: 25%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
   }
+
+  &_message {
+    margin-top: 4em;
+  }
+
+  &_btn {
+    padding: 1em 2em;
+    background-color: $clr-text;
+    border: 1px solid transparent;
+    border-radius: 2em;
+    cursor: pointer;
+
+    transition: 200ms ease-in-out;
+
+    &:hover {
+      color: $clr-text;
+      background: none;
+      border: 1px solid $clr-text;
+    }
+  }
+}
+
+.loose {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 
   &_container {
     width: 50%;
@@ -202,6 +262,17 @@
       border: 1px solid $clr-text;
     }
   }
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.4);
+
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 @media only screen and (max-width: 600px) {

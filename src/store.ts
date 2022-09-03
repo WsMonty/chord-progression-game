@@ -26,5 +26,6 @@ export const selectCurrentField = (state: RootState) => state.currentField;
 export const selectUserSolution = (state: RootState) => state.userSolution;
 export const selectWin = (state: RootState) => state.win;
 export const selectSolutionNumber = (state: RootState) => state.solutionNumber;
+export const selectHighscore = (state: RootState) => state.highscore;
 
 export const persistor = persistStore(store);

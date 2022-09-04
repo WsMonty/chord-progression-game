@@ -87,6 +87,8 @@
     top: 0;
     background-color: $clr-dark;
     border: 1px solid $clr-text;
+
+    z-index: 99;
   }
 
   &_howToBtn {
@@ -108,6 +110,8 @@
     right: 10%;
 
     border: 1px solid $clr-text;
+
+    z-index: 99;
   }
 
   &_highscoreBtn {
@@ -163,15 +167,16 @@
 }
 
 .isCorrect {
-  background-color: green;
+  background-color: $clr-field-win;
 }
 
 .notRightPlace {
-  background-color: yellow;
+  background-color: $clr-field-notRightPlace;
+  color: $clr-main;
 }
 
 .isFalse {
-  background-color: rgb(110, 68, 68);
+  background-color: $clr-field-loose;
 }
 
 .win {
@@ -220,21 +225,17 @@
 }
 
 .loose {
+  width: 50%;
+  height: 50%;
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  top: 10%;
+  left: 25%;
 
   &_container {
-    width: 50%;
-    height: 50%;
     z-index: 2;
     background-color: $clr-main;
-
-    position: absolute;
-    top: 10%;
-    left: 25%;
+    width: 100%;
+    height: 100%;
 
     display: flex;
     flex-direction: column;
@@ -273,6 +274,71 @@
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.game_hint {
+  border: 1px solid $clr-text;
+  background-color: $clr-dark;
+  padding: 5em;
+  width: 50vw;
+  height: 30vh;
+
+  position: absolute;
+  top: 15%;
+  left: 30%;
+
+  &_sure {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+  }
+
+  p {
+    margin-top: 0.5em;
+  }
+
+  &_close_btn {
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: $clr-text;
+    cursor: pointer;
+
+    position: absolute;
+    top: 10%;
+    right: 5%;
+  }
+
+  &_showHint_btn {
+    background: none;
+    color: $clr-text;
+    border-radius: 2em;
+    padding: 1em 2em;
+    border: 1px solid $clr-text;
+    cursor: pointer;
+    margin-top: 1em;
+
+    transition: 200ms ease-in-out;
+
+    &:hover {
+      background: $clr-text;
+      color: $clr-dark;
+    }
+  }
+
+  &_songtitle {
+    &_container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }
 
 @media only screen and (max-width: 600px) {

@@ -26,6 +26,7 @@ import { solutionObj, songs } from '../game_components/solutions';
 import { getNewSolution } from '../reducers/solutionChooser';
 import { BsQuestionCircle } from 'react-icons/bs';
 import { ImStatsBars } from 'react-icons/im';
+import { IoCloseCircleOutline } from 'react-icons/io5';
 import HowTo from './howTo';
 import Highscore from '../game_components/highscore';
 import { updateHighscore } from '../reducers/highscoreReducer';
@@ -45,6 +46,7 @@ const Game = () => {
 
   const [showSolutionBtn, setShowSolutionBtn] = useState(false);
   const [overlayActive, setOverlayActive] = useState(false);
+  const [showHint, setShowHint] = useState(false);
 
   let allBars: NodeListOf<HTMLElement>;
 
@@ -60,14 +62,6 @@ const Game = () => {
         bar.classList.add('active');
     });
   }, [currentField]);
-
-  useEffect(() => {
-    const overlay = document.querySelector('.overlay');
-    win || loose ? setOverlayActive(true) : setOverlayActive(false);
-    overlayActive
-      ? overlay.classList.remove('hidden')
-      : overlay.classList.add('hidden');
-  }, [overlayActive]);
 
   const entryDegreeHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     document
@@ -236,7 +230,9 @@ const Game = () => {
       store.dispatch(gameWon(true));
       setOverlayActive(true);
       const guesses = 5 - tries;
-      store.dispatch(updateHighscore(['win', guesses]));
+      showHint
+        ? store.dispatch(updateHighscore(['winWithHint', guesses]))
+        : store.dispatch(updateHighscore(['win', guesses]));
     }
     store.dispatch(wipeSolution());
     store.dispatch(nextRow());
@@ -245,6 +241,7 @@ const Game = () => {
     // LOSE GAME
     if (tries === 0 && !win) {
       store.dispatch(gameLost(true));
+      store.dispatch(updateHighscore(['loose']));
       setOverlayActive(true);
     }
   };
@@ -254,12 +251,13 @@ const Game = () => {
     allBars.forEach((bar) => {
       bar.classList.value = 'field_bar';
       bar.textContent = '';
-      store.dispatch(gameWon(false));
-      store.dispatch(gameLost(false));
-      setOverlayActive(false);
-      store.dispatch(resetField());
-      store.dispatch(getNewSolution());
     });
+    store.dispatch(gameWon(false));
+    store.dispatch(gameLost(false));
+    setOverlayActive(false);
+    store.dispatch(resetField());
+    store.dispatch(getNewSolution());
+    setShowHint(false);
   };
 
   const goBackHandler = () => {
@@ -287,9 +285,21 @@ const Game = () => {
     const highscore = document.querySelector('.game_highscore');
 
     highscore.classList.toggle('hidden');
-    highscore.classList.contains('hidden')
+    highscore.classList.contains('hidden') && !loose && !win
       ? setOverlayActive(false)
       : setOverlayActive(true);
+  };
+
+  const getHintHandler = () => {
+    document.querySelector('.game_hint').classList.remove('hidden');
+
+    setOverlayActive(true);
+  };
+
+  const closeHintHandler = () => {
+    document.querySelector('.game_hint').classList.add('hidden');
+
+    setOverlayActive(false);
   };
 
   return (
@@ -430,9 +440,49 @@ const Game = () => {
           >
             Go Back one bar
           </button>
+          <button
+            className="game_entry_btn game_entry_submitbtn"
+            onClick={getHintHandler}
+          >
+            Get a hint
+          </button>
+        </div>
+        <div className="game_hint hidden">
+          <button className="game_hint_close_btn" onClick={closeHintHandler}>
+            <IoCloseCircleOutline />
+          </button>
+          {!showHint ? (
+            <div className="game_hint_sure">
+              {tries < 2 ? (
+                <>
+                  <h2>
+                    Are you sure you want to see a hint? (Title of the song)
+                  </h2>
+                  <p>You will not get a full win when using the hint!</p>
+                  <button
+                    className="game_hint_showHint_btn"
+                    onClick={() => setShowHint(true)}
+                  >
+                    Yes, show Hint!
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h2>Hint is only available from guess 4!</h2>
+                  <p>The hint will be the title of the song.</p>
+                </>
+              )}
+            </div>
+          ) : (
+            <div className="game_hint_songtitle_container">
+              <h3 className="game_hint_songtitle">
+                Title of the song: {songs[solutionNumber]}
+              </h3>
+            </div>
+          )}
         </div>
       </div>
-      <div className="overlay hidden"></div>
+      <div className={overlayActive ? 'overlay' : 'overlay hidden'}></div>
     </div>
   );
 };

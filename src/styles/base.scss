@@ -22,17 +22,3 @@ body {
   font-weight: 100;
   overflow-x: hidden;
 }
-
-.mobile {
-  display: none;
-  height: 100vh;
-}
-
-@media only screen and (max-width: 600px) {
-  .mobile {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-  }
-}

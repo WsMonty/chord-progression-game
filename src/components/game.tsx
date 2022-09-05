@@ -157,7 +157,10 @@ const Game = () => {
       userSelection.base
     );
 
-    currentBarEl.textContent = entry;
+    const pElement = document.createElement('span');
+    pElement.textContent = entry;
+
+    currentBarEl.appendChild(pElement);
     store.dispatch(addToSolution(entry));
   };
 

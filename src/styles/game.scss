@@ -82,7 +82,7 @@
   &_howTo {
     position: absolute;
     width: 50%;
-    height: 80%;
+    height: fit-content;
     right: 5%;
     top: 0;
     background-color: $clr-dark;
@@ -266,8 +266,8 @@
 }
 
 .overlay {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: -1;
   background-color: rgba(0, 0, 0, 0.4);
 
@@ -343,6 +343,105 @@
 
 @media only screen and (max-width: 600px) {
   .game {
-    display: none;
+    &_entryList {
+      gap: 0.2em;
+    }
+
+    &_degreeEntriesList {
+      grid-template-columns: repeat(7, 3em);
+    }
+
+    &_chordEntriesList {
+      grid-template-columns: repeat(5, 3em);
+      justify-content: center;
+    }
+
+    &_symbolEntriesList {
+      grid-template-columns: repeat(3, 3em);
+      justify-content: center;
+    }
+
+    &_degreeBaseEntriesList {
+      font-size: 0.5em;
+    }
+
+    &_entry {
+      width: 3em;
+      height: 3em;
+
+      &_btn {
+        font-size: 0.5em;
+      }
+
+      &_submitbtn {
+        &:hover {
+          background: none;
+          color: $clr-text;
+        }
+      }
+    }
+
+    &_howTo {
+      width: 80%;
+      left: 10%;
+    }
+
+    &_howToBtn {
+      top: -20%;
+    }
+
+    &_highscore {
+      width: 80%;
+      left: 10%;
+    }
+
+    &_highscoreBtn {
+      top: -10%;
+      right: 5%;
+    }
+  }
+
+  .entries {
+    padding: 1em;
+  }
+
+  .field {
+    &_list {
+      grid-template-columns: repeat(8, 2.5em);
+    }
+
+    &_bar {
+      width: 2.5em;
+      height: 2.5em;
+
+      span {
+        font-size: 0.5em;
+      }
+    }
+  }
+
+  .win {
+    &_container {
+      width: 80%;
+      left: 10%;
+      padding: 2em;
+    }
+  }
+
+  .loose {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    &_container {
+      width: 80%;
+      height: 50%;
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      padding: 2em;
+    }
   }
 }

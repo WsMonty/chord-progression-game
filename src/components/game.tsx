@@ -401,7 +401,7 @@ const Game = () => {
             );
           })}
           <select
-            defaultValue={''}
+            defaultValue={'V'}
             id="degreeBase"
             className="game_degreeBaseEntriesList hidden"
           >

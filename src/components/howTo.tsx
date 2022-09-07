@@ -6,25 +6,24 @@ const HowTo = () => {
       <h1 className="howTo_title">How to play the Chord Progression Game</h1>
       <p className="howTo_answer">
         Each square represents one bar of a well know Jazz Standard. Your goal
-        is to find out the first 8 bars of that random Jazz Standard. I tried to
-        take the most common one and most logical harmonic analysis. You might
-        know a song differently, but you can still come to the solution!
+        is to find out the first 8 bars of that random Jazz Standard. You have 5
+        tries (5 rows) to guess one standard.
         <br />
         <br />
         Important note: if the chord goes on for 2 bars you'll need to enter it
-        twice. If there is a II-V for example in one bar, you'll only need to
-        enter the V! So everytime there is 2 changes per bar, you'll only enter
-        one of them.
+        twice. If there is a II-V in one bar, you'll only need to enter the V!
       </p>
       <p className="howTo_answer">
-        If you guess a correct chord and it is in the right bar, that field will
-        change its color to green!
+        This is a wordle style game (or mastermind). You'll have to guess a
+        whole row and when submitting the solution, all the chords will change
+        color!
+      </p>
+      <p className="howTo_answer">
+        Correct chord = <span className="green">green</span>
         <br />
-        If you guess correct chord but it is not in the right bar, that field
-        will change its color to yellow!
+        Chord is not in the right place = <span className="yellow">yellow</span>
         <br />
-        If you guess a chord that is not part of the solution, that field will
-        change its color to red!
+        Wrong chord = <span className="red">red</span>
       </p>
       <h1 className="howTo_title">How to enter chords</h1>
       <p className="howTo_answer">

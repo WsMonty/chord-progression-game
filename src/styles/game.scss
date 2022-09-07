@@ -444,4 +444,22 @@
       padding: 2em;
     }
   }
+
+  .game_hint {
+    width: 80%;
+    height: fit-content;
+    left: 10%;
+  }
+}
+
+.green {
+  color: $clr-field-win;
+}
+
+.yellow {
+  color: $clr-field-notRightPlace;
+}
+
+.red {
+  color: $clr-field-loose;
 }
